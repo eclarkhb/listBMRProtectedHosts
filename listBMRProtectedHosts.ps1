@@ -28,9 +28,9 @@ foreach($job in $jobs.protectionGroups){
     $paramPath = $paramPaths[$job.physicalParams.protectionType]
     if(($job.physicalParams.$paramPath.prePostScript.preScript.path -ieq $scriptname) -or 
     ($job.physicalParams.$paramPath.prePostScript.preScript.path -ieq "$scriptname.bat")){
-        foreach($host in $job.physicalParams.$paramPath.objects){
+        foreach($server in $job.physicalParams.$paramPath.objects){
             $foundBMR = $true
-            Write-Host $host.name
+            Write-Host $server.name
         }
     }
 }
