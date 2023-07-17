@@ -20,15 +20,16 @@ if($useApiKey){
 }
 
 #find all of the kPhysical Protection Groups
-$foundBMR = false
+$foundBMR = $false
 $jobs = api get -v2 "data-protect/protection-groups?isDeleted=false&isActive=true&environments=kPhysical"
 $paramPaths = @{'kFile' = 'fileProtectionTypeParams'; 'kVolume' = 'volumeProtectionTypeParams'}
 
 foreach($job in $jobs.protectionGroups){
     $paramPath = $paramPaths[$job.physicalParams.protectionType]
-    if(($job.physicalParams.$paramPath.prePostScript -ieq $scriptname) -or ($job.physicalParams.$paramPath.prePostScript -ieq "$scriptname.bat")){
+    if(($job.physicalParams.$paramPath.prePostScript.preScript.path -ieq $scriptname) -or 
+    ($job.physicalParams.$paramPath.prePostScript.preScript.path -ieq "$scriptname.bat")){
         foreach($host in $job.physicalParams.$paramPath.objects){
-            $foundBMR = true
+            $foundBMR = $true
             Write-Host $host.name
         }
     }
